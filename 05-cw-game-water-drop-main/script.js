@@ -7,6 +7,7 @@ let scoreValue= 0;
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
 const timer = document.getElementById("time");
+const score = document.getElementById("score");
 
 
 function startGame() {
@@ -15,6 +16,8 @@ function startGame() {
 
   gameRunning = true;
   timerValue = 30;
+  clearInterval(scoreValue);
+  score.textContent = "0";
   timer.textContent = timerValue;
   console.log("Hello world!");
 
@@ -84,13 +87,29 @@ function createFallingDrop(className) {
   drop.style.animationDuration = "4s";
   container.appendChild(drop);
 
+  if (className === "water-drop") {
+    drop.addEventListener("click", () => scoreTracker(drop));
+  }
+
+  else if (className === "bad-drop"){
+    drop.addEventListener("click", () => minusScore(drop));
+  }
+
   drop.addEventListener("animationend", () => {
     drop.remove();
   });
 }
 
-function scoreTracker(){
+function scoreTracker(drop) {
+  scoreValue += 10;
+  score.textContent = scoreValue;
+  drop.remove();
+}
 
+function minusScore(drop) {
+  scoreValue -= 10;
+  score.textContent = scoreValue;
+  drop.remove();
 }
 
 function startCountDown() {
