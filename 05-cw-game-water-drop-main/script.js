@@ -1,12 +1,12 @@
 // Variables to control game state
 let gameRunning = false; // Keeps track of whether game is active or not
 let dropMaker; // Will store our timer that creates drops regularly
+let countdownInterval;
 let timerValue = 30;
-let scoreValue= 500;
+let scoreValue= 0;
 // Wait for button click to start the game
-document.getElementById("start-btn").addEventListener("click", startGame, startCountDown);
-document.getElementById("time");
-document.getElementById("score");
+document.getElementById("start-btn").addEventListener("click", startGame);
+const timer = document.getElementById("time");
 
 
 function startGame() {
@@ -14,51 +14,95 @@ function startGame() {
   if (gameRunning) return;
 
   gameRunning = true;
+  timerValue = 30;
+  timer.textContent = timerValue;
   console.log("Hello world!");
 
   // Create new drops every second (1000 milliseconds)
-  dropMaker = setInterval(createDrop, 1000);
+  dropMaker = setInterval(() => {
+    createDrop();
+    obstacleDrop();
+  }, 1000);
+  startCountDown();
 }
 
 function createDrop() {
-  // Create a new div element that will be our water drop
+  createFallingDrop("water-drop");
+}
+
+function obstacleDrop() {
+  createFallingDrop("bad-drop");
+}
+
+function createFallingDrop(className) {
+  const container = document.getElementById("game-container");
+  const size = 60 * (Math.random() * 0.8 + 0.5);
+  const gameWidth = container.clientWidth;
+  const maxLeft = gameWidth - size;
+  const spacing = 8;
+  const containerRect = container.getBoundingClientRect();
+  const contentLeft = containerRect.left + container.clientLeft;
+  const spawnTop = containerRect.top + container.clientTop - 20;
+  let xPosition;
+
+  if (maxLeft < 0) return;
+
+  const existingDrops = container.querySelectorAll(".water-drop, .bad-drop");
+  let positionFound = false;
+
+  for (let attempt = 0; attempt < 30; attempt++) {
+    xPosition = Math.random() * maxLeft;
+    const candidate = {
+      left: contentLeft + xPosition,
+      right: contentLeft + xPosition + size,
+      top: spawnTop,
+      bottom: spawnTop + size
+    };
+    const overlaps = Array.from(existingDrops).some((existingDrop) => {
+      const rect = existingDrop.getBoundingClientRect();
+      return !(
+        candidate.right + spacing <= rect.left ||
+        candidate.left >= rect.right + spacing ||
+        candidate.bottom + spacing <= rect.top ||
+        candidate.top >= rect.bottom + spacing
+      );
+    });
+
+    if (!overlaps) {
+      positionFound = true;
+      break;
+    }
+  }
+
+  if (!positionFound) return;
+
   const drop = document.createElement("div");
-  drop.className = "water-drop";
-
-  // Make drops different sizes for visual variety
-  const initialSize = 60;
-  const sizeMultiplier = Math.random() * 0.8 + 0.5;
-  const size = initialSize * sizeMultiplier;
+  drop.className = className;
   drop.style.width = drop.style.height = `${size}px`;
-
-  // Position the drop randomly across the game width
-  // Subtract 60 pixels to keep drops fully inside the container
-  const gameWidth = document.getElementById("game-container").offsetWidth;
-  const xPosition = Math.random() * (gameWidth - 60);
-  drop.style.left = xPosition + "px";
-
-  // Make drops fall for 4 seconds
+  drop.style.left = `${xPosition}px`;
+  drop.style.top = "-20px";
   drop.style.animationDuration = "4s";
+  container.appendChild(drop);
 
-  // Add the new drop to the game screen
-  document.getElementById("game-container").appendChild(drop);
-
-  // Remove drops that reach the bottom (weren't clicked)
   drop.addEventListener("animationend", () => {
-    drop.remove(); // Clean up drops that weren't caught
+    drop.remove();
   });
 }
 
-function startCountDown() {
-  const countdownInterval= setInterval(function() {
-    timerValue--;
-    timer.textcontent= timerValue;
-    console.log(timerValue);
+function scoreTracker(){
 
-    if (timerValue <= 0){
+}
+
+function startCountDown() {
+  countdownInterval = setInterval(function() {
+    timerValue--;
+    timer.textContent = timerValue;
+
+    if (timerValue <= 0) {
       clearInterval(countdownInterval);
-      timer.textcontent = '0';
-      console.log("Hello world!");
+      clearInterval(dropMaker);
+      timer.textContent = "0";
+      gameRunning = false;
     }
   }, 1000);
 }
