@@ -39,6 +39,14 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+
+    img{
+        padding-top: 20 px;
+        @media only screen and (max-width: 600px){
+            width: 80%;
+            height: auto;
+        }
+    }
 }
 
 .score-panel {
