@@ -30,7 +30,8 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+    color: #2E9DF7;
+    font-family: Proxima Nova, Avenir, Arial, Helvetica, sans-serif;
 }
 
 .game-wrapper {
@@ -82,10 +83,17 @@ body {
     background-color: #45a049;
 }
 
+
 .score {
     flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
     font-size: 24px;
     font-weight: bold;
+
+    img{
+        width: 25px;
+        height: auto;
+        border: none;
+    }
 }
 
 .water-drop {

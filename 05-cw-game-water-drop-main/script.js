@@ -2,15 +2,19 @@
 let gameRunning = false; // Keeps track of whether game is active or not
 let dropMaker; // Will store our timer that creates drops regularly
 let timerValue = 30;
+let scoreValue= 500;
 // Wait for button click to start the game
-document.getElementById("start-btn").addEventListener("click", startGame, countDown);
-document.getElementById("time")
+document.getElementById("start-btn").addEventListener("click", startGame, startCountDown);
+document.getElementById("time");
+document.getElementById("score");
+
 
 function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
 
   gameRunning = true;
+  console.log("Hello world!");
 
   // Create new drops every second (1000 milliseconds)
   dropMaker = setInterval(createDrop, 1000);
@@ -45,15 +49,14 @@ function createDrop() {
   });
 }
 
-const timer = document.querySelector("time");
-function countDown() {
-  const countdownInterval = setInterval(function() {
+function startCountDown() {
+  const countdownInterval= setInterval(function() {
     timerValue--;
     timer.textcontent= timerValue;
     console.log(timerValue);
 
     if (timerValue <= 0){
-      clearInterval(timerValue);
+      clearInterval(countdownInterval);
       timer.textcontent = '0';
       console.log("Hello world!");
     }
