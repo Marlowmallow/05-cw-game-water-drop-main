@@ -8,17 +8,52 @@
 </head>
 <body>
     <div class="game-wrapper">
-        <img src= "img/cw_logo-horizontal.png" alt= "Charity Water Logo">
-        <h1 class="game-title">Water Drop</h1>
-        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        <div class="Title">
+            <div class="Header Game">
+            <img class="Full-Logo" src= "img/cw_logo-horizontal.png" alt= "Charity Water Logo">
+            <h1 class="game-title">Water Drop</h1>
+            <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        </div>
+    </div>
         <div class="score-panel">
-            <div class="score"><img src= "img/water-can-transparent.png" alt= "Jerry Can"> Score: <span id="score">0</span><span> mL</span></div>
+            <div class="score"><img src= "img/water-can-transparent.png" alt= "Jerry Can"> Score: <span id="score">0</span><span> L</span></div>
             <div class="timer">Time: <span id="time">30</span>s</div>
-            <button id="start-btn">Start Game</button>
         </div>
         
         <div id="game-container">
+            <div id="level-Popup">
+                <div class="Level-details">
+                    <div class="details">
+                        <div class="Welcome">
+                            <h1 >Welcome To Water Drop</h1>
+                            <h2>Catch the good drops, avoid the bad ones!</h2>
+                        </div>
+                        <div class="Success">
+                            <h1>Success!</h1>
+                            <h2>The water you collected will help many people without access to water. Learn more at <a href="https://www.charitywater.org/">Charity Water.org</a></h2>
+                        </div>
+                        <div class="fail">
+                            <h1>Try Again!</h1>
+                            <h2>So Close! You've got this!</h2>
+                        </div>
+                    </div>
+                    <div class="Facts">
+                        <h3 id="Fact1">Fun fact: 696 million people live without clean water. Charity Water gives 100% of donations to help.</h3>
+                        <h3 id="Fact2">Fun fact: Charity Water was founded in 2006 to end the global water crisis</h3>
+                        <h3 id="Fact3">Fun fact: Charity Water has helped give access to clean water in 29 countries</h3>
+                    </div>
+                <div class= "level">
+                    <h3 class="levelnum">Level 1</h3>
+                    <p class="goal"> Goal: 100 L</p>
+                </div>
+                </div>
+                <button id="start-btn">Start Game</button>
+                <button id="reset-btn">Restart</button>
+            </div>
         </div>
+        <footer>
+            <p>Donate and learn more at <a href="https://www.charitywater.org/">Charity Water.org</a></p>
+        </footer>
     </div>
     
     <script src="script.js"></script>
